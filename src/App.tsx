@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Toast from 'react-bootstrap/Toast';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
@@ -24,6 +25,14 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+      <div>
+        <Toast>
+          <Toast.Header>
+            <strong className="me-auto">Bootstrap</strong>
+          </Toast.Header>
+          <Toast.Body>Hello, boostrap is working fine</Toast.Body>
+        </Toast>
+      </div>
     </>
   );
 }
