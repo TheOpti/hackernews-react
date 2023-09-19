@@ -1,25 +1,29 @@
-import { useState } from 'react';
-import Toast from 'react-bootstrap/Toast';
+import { Link } from './Link/Link';
 
-import viteLogo from '/vite.svg';
 import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0);
+export const App = () => {
+  const linksToRender = [
+    {
+      id: 'link-id-1',
+      description: 'Prisma gives you a powerful database toolkit 😎',
+      url: 'https://prisma.io'
+    },
+    {
+      id: 'link-id-2',
+      description: 'The best GraphQL client',
+      url: 'https://www.apollographql.com/docs/react/'
+    }
+  ];
 
   return (
-    <>
-      <h1>Vite + React</h1>
-      <div>
-        <Toast>
-          <Toast.Header>
-            <strong className="me-auto">Bootstrap</strong>
-          </Toast.Header>
-          <Toast.Body>Hello, boostrap is working fine</Toast.Body>
-        </Toast>
-      </div>
-    </>
+    <div>
+      <h1>Hackernews Clone</h1>
+      {linksToRender.map((link) => (
+        <Link key={link.id} link={link} />
+      ))}
+    </div>
   );
-}
+};
 
 export default App;
