@@ -1,16 +1,9 @@
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
-import { Link } from '../Link/Link';
+import { LinkCard } from '../LinkCard/LinkCard';
+import { FEED_QUERY } from './LinkList.graphql';
 
-const FEED_QUERY = gql`
-  query {
-    feed {
-      id
-      description
-      url
-    }
-  }
-`;
+import classes from './LinkList.module.css';
 
 export const LinkList = () => {
   const { data, loading, error } = useQuery(FEED_QUERY);
@@ -25,9 +18,9 @@ export const LinkList = () => {
   }
 
   return (
-    <div data-testid="link-list">
+    <div className={classes.linkList} data-testid="link-list">
       {data.feed.map((link: any) => (
-        <Link key={link.id} link={link} />
+        <LinkCard key={link.id} link={link} />
       ))}
     </div>
   );
