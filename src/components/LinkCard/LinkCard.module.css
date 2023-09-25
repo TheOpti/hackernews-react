@@ -1,7 +1,7 @@
 .linkCard {
-  margin: 16px 0;
+  margin: 20px 0;
   padding: 0 !important;
-  box-shadow: 0px 0px 4px 1px rgba(66, 68, 90, 0.5);
+  box-shadow: 0px 0px 2px 1px rgba(66, 68, 90, 0.5);
   display: flex;
   flex-direction: row !important;
   padding: 10px !important;
@@ -13,8 +13,9 @@
 
 .voteBlock {
   display: flex;
+  align-items: center;
   flex-direction: column;
-  margin-right: 12px;
+  margin-right: 16px;
   font-size: 10px;
 }
 
@@ -46,5 +47,5 @@
 .titleBottomRow {
   text-align: left;
   font-size: 14px;
-  margin-top: 4px;
+  margin-top: 8px;
 }
