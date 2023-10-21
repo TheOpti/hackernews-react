@@ -25,7 +25,7 @@ export const LinkCard = ({ link }: Props) => {
         </Button>
         <div className={classes.votes}>{votes.length}</div>
       </div>
-      <Card.Body className={classes.linkCardBody}>
+      <div>
         <div className={classes.titleRow}>
           <Card.Title className={classes.linkTitle}>{description}</Card.Title>
           <Card.Text>({hostname})</Card.Text>
@@ -33,7 +33,7 @@ export const LinkCard = ({ link }: Props) => {
         <Card.Text className={classes.titleBottomRow}>
           posted by {userName} | 4 hours ago | 12 comments
         </Card.Text>
-      </Card.Body>
+      </div>
     </Card>
   );
 };
