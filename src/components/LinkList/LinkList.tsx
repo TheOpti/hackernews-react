@@ -8,11 +8,6 @@ import classes from './LinkList.module.css';
 export const LinkList = () => {
   const { data, loading, error } = useQuery(FEED_QUERY);
 
-  console.debug('LinkList ---');
-  console.debug('data ', data);
-  console.debug('loading ', loading);
-  console.debug('error ', error);
-
   if (!data) {
     return 'Loading...';
   }

@@ -1,9 +1,14 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 
-export const Navigation = () => {
+interface Props {
+  openLoginModal: () => void;
+}
+
+export const Navigation = (props: Props) => {
+  const { openLoginModal } = props;
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -16,7 +21,7 @@ export const Navigation = () => {
             <Nav.Link href="#pricing">comments</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link>login</Nav.Link>
+            <Nav.Link onClick={openLoginModal}>login</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
