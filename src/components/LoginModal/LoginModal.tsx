@@ -2,6 +2,9 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import { useMutation } from '@apollo/client';
+
+import { LOGIN_MUTATION } from './LoginModal.graphql';
 
 import classes from './LoginModal.module.css';
 
@@ -15,6 +18,23 @@ export const LoginModal = (props: Props) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [login, { data, loading, error }] = useMutation(LOGIN_MUTATION);
+
+  const doLogin = () => {
+    login({
+      variables: {
+        email,
+        password
+      },
+      onCompleted: () => {
+        console.log('login - onCompleted');
+      },
+      onError: () => {
+        console.log('login - onError');
+      }
+    });
+  };
 
   return (
     <Modal show={open} onHide={handleClose} size="lg" centered>
@@ -43,7 +63,9 @@ export const LoginModal = (props: Props) => {
           </Form.Group>
         </Form>
         <div className="d-grid gap-2">
-          <Button variant="primary">Login</Button>
+          <Button variant="primary" onClick={doLogin}>
+            Login
+          </Button>
           <Button variant="link">Forgot your password?</Button>
         </div>
       </Modal.Body>
