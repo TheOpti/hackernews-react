@@ -1,0 +1,10 @@
+.signedInAsLabel {
+  padding: 8px;
+}
+
+.divider {
+  height: 20px;
+  width: 1px;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin: auto 8px;
+}

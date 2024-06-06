@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useMutation } from '@apollo/client';
 
+import { useAuth } from '../../context/AuthContext';
+
 import { LOGIN_MUTATION } from './LoginModal.graphql';
 import { EMAIL_REGEX } from './LoginModal.utils';
 
@@ -17,6 +19,8 @@ interface Props {
 
 export const LoginModal = (props: Props) => {
   const { open, handleClose } = props;
+
+  const { setToken } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -45,8 +49,11 @@ export const LoginModal = (props: Props) => {
         email,
         password
       },
-      onCompleted: () => {
-        console.log('!!! login - onCompleted');
+      onCompleted: (data) => {
+        const token = data.login.token;
+        setToken(token);
+
+        handleClose();
       },
       onError: (error) => {
         setEmailError(error.message);

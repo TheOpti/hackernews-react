@@ -2,12 +2,18 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
+import { useAuth } from '../../context/AuthContext';
+
+import classes from './Navigation.module.css';
+
 interface Props {
   openLoginModal: () => void;
 }
 
 export const Navigation = (props: Props) => {
   const { openLoginModal } = props;
+
+  const { isAuthenticated, removeToken } = useAuth();
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -21,7 +27,14 @@ export const Navigation = (props: Props) => {
             <Nav.Link href="#pricing">comments</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link onClick={openLoginModal}>login</Nav.Link>
+            {isAuthenticated && (
+              <>
+                <Navbar.Text className={classes.signedInAsLabel}>Signed in</Navbar.Text>
+                <div className={classes.divider} />
+                <Nav.Link onClick={removeToken}>log out</Nav.Link>
+              </>
+            )}
+            {!isAuthenticated && <Nav.Link onClick={openLoginModal}>login</Nav.Link>}
           </Nav>
         </Navbar.Collapse>
       </Container>
