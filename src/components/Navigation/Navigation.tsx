@@ -13,7 +13,7 @@ interface Props {
 export const Navigation = (props: Props) => {
   const { openLoginModal } = props;
 
-  const { isAuthenticated, removeToken } = useAuth();
+  const { authenticatedUser, removeToken } = useAuth();
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -27,14 +27,16 @@ export const Navigation = (props: Props) => {
             <Nav.Link href="#pricing">comments</Nav.Link>
           </Nav>
           <Nav>
-            {isAuthenticated && (
+            {authenticatedUser && (
               <>
-                <Navbar.Text className={classes.signedInAsLabel}>Signed in</Navbar.Text>
+                <Navbar.Text className={classes.signedInAsLabel}>
+                  Signed in as <b>{authenticatedUser}</b>
+                </Navbar.Text>
                 <div className={classes.divider} />
                 <Nav.Link onClick={removeToken}>log out</Nav.Link>
               </>
             )}
-            {!isAuthenticated && <Nav.Link onClick={openLoginModal}>login</Nav.Link>}
+            {!authenticatedUser && <Nav.Link onClick={openLoginModal}>login</Nav.Link>}
           </Nav>
         </Navbar.Collapse>
       </Container>

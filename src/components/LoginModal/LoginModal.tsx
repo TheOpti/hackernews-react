@@ -25,24 +25,24 @@ export const LoginModal = (props: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [errors, setErrors] = useState({ emailError: '', passwordError: '' });
 
   const [login, { loading }] = useMutation(LOGIN_MUTATION);
 
   const doLogin = () => {
-    if (password === '') {
-      setPasswordError('You need to type your password.');
-      return;
-    }
-
+    const validationErrors = { emailError: '', passwordError: '' };
     if (!email.match(EMAIL_REGEX)) {
-      setEmailError('Please provide correct email.');
-      return;
+      validationErrors.emailError = 'Please provide correct email.';
     }
 
-    setPasswordError('');
-    setEmailError('');
+    if (password === '') {
+      validationErrors.passwordError = 'You need to type your password.';
+    }
+
+    if (validationErrors.emailError || validationErrors.passwordError) {
+      setErrors(validationErrors);
+      return;
+    }
 
     login({
       variables: {
@@ -50,13 +50,20 @@ export const LoginModal = (props: Props) => {
         password
       },
       onCompleted: (data) => {
-        const token = data.login.token;
-        setToken(token);
+        const {
+          token,
+          user: { name }
+        } = data.login;
+
+        setToken(token, name);
 
         handleClose();
       },
       onError: (error) => {
-        setEmailError(error.message);
+        setErrors({
+          emailError: error.message,
+          passwordError: ''
+        });
       }
     });
   };
@@ -77,10 +84,10 @@ export const LoginModal = (props: Props) => {
                 placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                isInvalid={Boolean(emailError)}
+                isInvalid={Boolean(errors.emailError)}
                 disabled={loading}
               />
-              <Form.Control.Feedback type="invalid">{emailError}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.emailError}</Form.Control.Feedback>
             </InputGroup>
           </Form.Group>
 
@@ -92,10 +99,10 @@ export const LoginModal = (props: Props) => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                isInvalid={Boolean(passwordError)}
+                isInvalid={Boolean(errors.passwordError)}
                 disabled={loading}
               />
-              <Form.Control.Feedback type="invalid">{passwordError}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.passwordError}</Form.Control.Feedback>
             </InputGroup>
           </Form.Group>
         </Form>
