@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -21,6 +21,15 @@ export const LoginModal = (props: Props) => {
   const { open, handleClose } = props;
 
   const { setToken } = useAuth();
+
+  useEffect(() => {
+    // Avoid blinking inside inputs because of Boostrap animation
+    setTimeout(() => {
+      setEmail('');
+      setPassword('');
+      setErrors({ emailError: '', passwordError: '' });
+    }, 200);
+  }, [open]);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
