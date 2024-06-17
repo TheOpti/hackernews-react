@@ -7,17 +7,17 @@ import { useMutation } from '@apollo/client';
 
 import { useAuth } from '../../context/AuthContext';
 
-import { LOGIN_MUTATION } from './LoginModal.graphql';
-import { EMAIL_REGEX } from './LoginModal.utils';
+import { LOGIN_MUTATION } from './AuthModal.graphql';
+import { EMAIL_REGEX } from './AuthModal.utils';
 
-import classes from './LoginModal.module.css';
+import classes from './AuthModal.module.css';
 
 interface Props {
   open: boolean;
   handleClose: () => void;
 }
 
-export const LoginModal = (props: Props) => {
+export const AuthModal = (props: Props) => {
   const { open, handleClose } = props;
 
   const { setToken } = useAuth();
@@ -137,4 +137,4 @@ export const LoginModal = (props: Props) => {
   );
 };
 
-export default LoginModal;
+export default AuthModal;
