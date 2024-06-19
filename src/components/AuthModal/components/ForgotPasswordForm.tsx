@@ -20,10 +20,10 @@ const ForgotPasswordForm = (props: Props) => {
 
   return (
     <>
-      <p className={classes.descriptionLabel}>
+      <p className="mb-4">
         Enter your email address and we'll send you a link to reset your password.
       </p>
-      <Form>
+      <Form className="mb-5">
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
           <InputGroup hasValidation>

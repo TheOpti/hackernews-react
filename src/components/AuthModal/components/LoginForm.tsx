@@ -75,7 +75,7 @@ export const LoginForm = (props: Props) => {
 
   return (
     <>
-      <Form>
+      <Form className="mb-5">
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <InputGroup hasValidation>
