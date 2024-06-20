@@ -1,85 +1,83 @@
-import { useState } from 'react';
+import { useFormik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+
+import { registrationSchema } from './RegisterForm.utils';
 
 const RegisterForm = () => {
-  const [login, setLogin] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
-
-  const errors = { loginError: '', emailError: '', passwordError: '', repeatPasswordError: '' };
-  const loading = false;
-  const register = () => {};
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      email: '',
+      password: '',
+      repeatPassword: ''
+    },
+    validationSchema: registrationSchema,
+    onSubmit: async (values, handlers) => {
+      console.log('onSubmit, values ', values);
+      console.log('onSubmit, handlers ', handlers);
+    }
+  });
 
   return (
-    <>
-      <Form className="mb-5">
-        <Form.Group className="mb-3" controlId="formBasicLogin">
-          <Form.Label>Login</Form.Label>
-          <InputGroup hasValidation>
-            <Form.Control
-              placeholder="Password"
-              value={login}
-              onChange={(e) => setLogin(e.target.value)}
-              isInvalid={Boolean(errors.loginError)}
-              disabled={loading}
-            />
-            <Form.Control.Feedback type="invalid">{errors.loginError}</Form.Control.Feedback>
-          </InputGroup>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email</Form.Label>
-          <InputGroup hasValidation>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              isInvalid={Boolean(errors.emailError)}
-              disabled={loading}
-            />
-            <Form.Control.Feedback type="invalid">{errors.emailError}</Form.Control.Feedback>
-          </InputGroup>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <InputGroup hasValidation>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              isInvalid={Boolean(errors.passwordError)}
-              disabled={loading}
-            />
-            <Form.Control.Feedback type="invalid">{errors.passwordError}</Form.Control.Feedback>
-          </InputGroup>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicRepeatedPassword">
-          <Form.Label>Repeat passowrd</Form.Label>
-          <InputGroup hasValidation>
-            <Form.Control
-              type="password"
-              placeholder="Repeat password"
-              value={repeatPassword}
-              onChange={(e) => setRepeatPassword(e.target.value)}
-              isInvalid={Boolean(errors.repeatPasswordError)}
-              disabled={loading}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.repeatPasswordError}
-            </Form.Control.Feedback>
-          </InputGroup>
-        </Form.Group>
-      </Form>
+    <Form onSubmit={formik.handleSubmit}>
+      <Form.Group className="mb-4" controlId="formUsername">
+        <Form.Label>Username</Form.Label>
+        <Form.Control
+          type="text"
+          name="username"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.username}
+          isInvalid={formik.touched.username && !!formik.errors.username}
+        />
+        <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-4" controlId="formEmail">
+        <Form.Label>Email</Form.Label>
+        <Form.Control
+          type="email"
+          name="email"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+          isInvalid={formik.touched.email && !!formik.errors.email}
+        />
+        <Form.Control.Feedback type="invalid">{formik.errors.email}</Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-4" controlId="formPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          type="password"
+          name="password"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+          isInvalid={formik.touched.password && !!formik.errors.password}
+        />
+        <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-4" controlId="formRepeatPassword">
+        <Form.Label>Repeat Password</Form.Label>
+        <Form.Control
+          type="password"
+          name="repeatPassword"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.repeatPassword}
+          isInvalid={formik.touched.repeatPassword && !!formik.errors.repeatPassword}
+        />
+        <Form.Control.Feedback type="invalid">{formik.errors.repeatPassword}</Form.Control.Feedback>
+      </Form.Group>
       <div className="d-grid gap-2">
-        <Button variant="primary" onClick={register}>
+        <Button variant="primary" type="submit" disabled={formik.isSubmitting}>
           Register
         </Button>
       </div>
-    </>
+    </Form>
   );
 };
 
