@@ -1,121 +1,93 @@
-import { useEffect, useState } from 'react';
+import { useFormik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import { useMutation } from '@apollo/client';
 
 import { useAuth } from '../../../context/AuthContext';
 
 import { LOGIN_MUTATION } from './../AuthModal.graphql';
-import { EMAIL_REGEX } from './../AuthModal.utils';
+
+import { loginSchema } from './LoginForm.utils';
 
 interface Props {
   openForgotPasswordForm: () => void;
+  handleClose: () => void;
 }
 
 export const LoginForm = (props: Props) => {
-  const { openForgotPasswordForm } = props;
-
+  const { openForgotPasswordForm, handleClose } = props;
+  const [login, { loading }] = useMutation(LOGIN_MUTATION);
   const { setToken } = useAuth();
 
-  useEffect(() => {
-    // Avoid blinking inside inputs because of Boostrap animation
-    setTimeout(() => {
-      setEmail('');
-      setPassword('');
-      setErrors({ emailError: '', passwordError: '' });
-    }, 200);
-  }, [open]);
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    validationSchema: loginSchema,
+    onSubmit: async ({ email, password }, formikHelpers) => {
+      login({
+        variables: {
+          email,
+          password
+        },
+        onCompleted: (data) => {
+          const {
+            token,
+            user: { name }
+          } = data.login;
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const [errors, setErrors] = useState({ emailError: '', passwordError: '' });
-
-  const [login, { loading }] = useMutation(LOGIN_MUTATION);
-
-  const doLogin = () => {
-    const validationErrors = { emailError: '', passwordError: '' };
-    if (!email.match(EMAIL_REGEX)) {
-      validationErrors.emailError = 'Please provide correct email.';
+          setToken(token, name);
+          handleClose();
+        },
+        onError: (error) => {
+          formikHelpers.setErrors({
+            email: error.message
+          });
+        }
+      });
     }
+  });
 
-    if (password === '') {
-      validationErrors.passwordError = 'You need to type your password.';
-    }
-
-    if (validationErrors.emailError || validationErrors.passwordError) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    login({
-      variables: {
-        email,
-        password
-      },
-      onCompleted: (data) => {
-        const {
-          token,
-          user: { name }
-        } = data.login;
-
-        setToken(token, name);
-
-        handleClose();
-      },
-      onError: (error) => {
-        setErrors({
-          emailError: error.message,
-          passwordError: ''
-        });
-      }
-    });
-  };
+  const loadingInProgress = loading || formik.isSubmitting;
 
   return (
-    <>
-      <Form className="mb-5">
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <InputGroup hasValidation>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              isInvalid={Boolean(errors.emailError)}
-              disabled={loading}
-            />
-            <Form.Control.Feedback type="invalid">{errors.emailError}</Form.Control.Feedback>
-          </InputGroup>
-        </Form.Group>
+    <Form onSubmit={formik.handleSubmit}>
+      <Form.Group className="mb-3" controlId="formEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control
+          type="text"
+          name="email"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+          isInvalid={formik.touched.email && !!formik.errors.email}
+        />
+        <Form.Control.Feedback type="invalid">{formik.errors.email}</Form.Control.Feedback>
+      </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <InputGroup hasValidation>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              isInvalid={Boolean(errors.passwordError)}
-              disabled={loading}
-            />
-            <Form.Control.Feedback type="invalid">{errors.passwordError}</Form.Control.Feedback>
-          </InputGroup>
-        </Form.Group>
-      </Form>
+      <Form.Group className="mb-3" controlId="formPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          type="password"
+          name="password"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+          isInvalid={formik.touched.password && !!formik.errors.password}
+        />
+        <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
+      </Form.Group>
 
-      <div className="d-grid gap-2">
-        <Button variant="primary" onClick={doLogin} disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
+      <div className="d-grid gap-2 mt-4">
+        <Button variant="primary" type="submit" disabled={loadingInProgress}>
+          {loadingInProgress ? 'Logging in...' : 'Login'}
         </Button>
-        <Button variant="link" disabled={loading} onClick={openForgotPasswordForm}>
+        <Button variant="link" disabled={loadingInProgress} onClick={openForgotPasswordForm}>
           Forgot your password?
         </Button>
       </div>
-    </>
+    </Form>
   );
 };
 
