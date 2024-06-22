@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useFormik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 
-import classes from './ForgotPasswordForm.module.css';
+import { forgotPasswordSchema } from './ForgotPasswordForm.utils';
 
 interface Props {
   openRegisterForm: () => void;
@@ -12,42 +11,43 @@ interface Props {
 const ForgotPasswordForm = (props: Props) => {
   const { openRegisterForm } = props;
 
-  const [email, setEmail] = useState('');
-
-  const errors = { emailError: '' };
-  const loading = false;
-  const sendResetEmail = () => {};
+  const formik = useFormik({
+    initialValues: {
+      email: ''
+    },
+    validationSchema: forgotPasswordSchema,
+    onSubmit: async (values, handlers) => {
+      console.log('onSubmit, values ', values);
+      console.log('onSubmit, handlers ', handlers);
+    }
+  });
 
   return (
-    <>
+    <Form>
       <p className="mb-4">
         Enter your email address and we'll send you a link to reset your password.
       </p>
-      <Form className="mb-5">
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email</Form.Label>
-          <InputGroup hasValidation>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              isInvalid={Boolean(errors.emailError)}
-              disabled={loading}
-            />
-            <Form.Control.Feedback type="invalid">{errors.emailError}</Form.Control.Feedback>
-          </InputGroup>
-        </Form.Group>
-      </Form>
+      <Form.Group className="mb-3" controlId="formEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control
+          type="text"
+          name="email"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+          isInvalid={formik.touched.email && !!formik.errors.email}
+        />
+        <Form.Control.Feedback type="invalid">{formik.errors.email}</Form.Control.Feedback>
+      </Form.Group>
       <div className="d-grid gap-2">
-        <Button variant="primary" onClick={sendResetEmail}>
+        <Button variant="primary" type="submit" disabled={formik.isSubmitting}>
           Reset password
         </Button>
-        <Button variant="link" disabled={loading} onClick={openRegisterForm}>
+        <Button variant="link" disabled={formik.isSubmitting} onClick={openRegisterForm}>
           Don't have an account? Sign up
         </Button>
       </div>
-    </>
+    </Form>
   );
 };
 
