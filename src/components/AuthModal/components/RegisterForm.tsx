@@ -21,7 +21,7 @@ const RegisterForm = () => {
 
   return (
     <Form onSubmit={formik.handleSubmit}>
-      <Form.Group className="mb-4" controlId="formUsername">
+      <Form.Group className="mb-3" controlId="formUsername">
         <Form.Label>Username</Form.Label>
         <Form.Control
           type="text"
@@ -34,7 +34,7 @@ const RegisterForm = () => {
         <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group className="mb-4" controlId="formEmail">
+      <Form.Group className="mb-3" controlId="formEmail">
         <Form.Label>Email</Form.Label>
         <Form.Control
           type="email"
@@ -47,7 +47,7 @@ const RegisterForm = () => {
         <Form.Control.Feedback type="invalid">{formik.errors.email}</Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group className="mb-4" controlId="formPassword">
+      <Form.Group className="mb-3" controlId="formPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control
           type="password"
@@ -60,7 +60,7 @@ const RegisterForm = () => {
         <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group className="mb-4" controlId="formRepeatPassword">
+      <Form.Group className="mb-3" controlId="formRepeatPassword">
         <Form.Label>Repeat Password</Form.Label>
         <Form.Control
           type="password"
@@ -72,7 +72,7 @@ const RegisterForm = () => {
         />
         <Form.Control.Feedback type="invalid">{formik.errors.repeatPassword}</Form.Control.Feedback>
       </Form.Group>
-      <div className="d-grid gap-2">
+      <div className="d-grid gap-2 mt-4">
         <Button variant="primary" type="submit" disabled={formik.isSubmitting}>
           Register
         </Button>

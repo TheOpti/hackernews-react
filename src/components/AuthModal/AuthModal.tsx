@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
@@ -20,6 +20,12 @@ export const AuthModal = (props: Props) => {
 
   const [formType, setFormType] = useState(FORM_TYPE.LOGIN);
 
+  useEffect(() => {
+    if (!open) {
+      setFormType(FORM_TYPE.LOGIN);
+    }
+  }, [open]);
+
   return (
     <Modal show={open} onHide={handleClose} size="lg" centered>
       <Modal.Header closeButton>
@@ -28,7 +34,10 @@ export const AuthModal = (props: Props) => {
 
       <Modal.Body>
         {formType === FORM_TYPE.LOGIN && (
-          <LoginForm openForgotPasswordForm={() => setFormType(FORM_TYPE.FORGOT_PASSWORD)} />
+          <LoginForm
+            openForgotPasswordForm={() => setFormType(FORM_TYPE.FORGOT_PASSWORD)}
+            handleClose={handleClose}
+          />
         )}
         {formType === FORM_TYPE.FORGOT_PASSWORD && (
           <ForgotPasswordForm openRegisterForm={() => setFormType(FORM_TYPE.REGISTER)} />
