@@ -1,18 +1,19 @@
 import { createContext, useContext, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { Alert } from 'react-bootstrap';
+import { Variant } from 'react-bootstrap/esm/types';
 
 import classes from './NotificationsProvider.module.css';
 
 type NotificationData = {
   message: string;
-  variant?: string;
+  variant?: Variant;
   timeout?: number;
 };
 
 type Notification = {
   message: string;
-  variant: string;
+  variant: Variant;
   id: number;
 };
 
