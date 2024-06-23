@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import { ApolloProvider } from '@apollo/client';
 
-import { AuthProvider } from './context/AuthContext.tsx';
+import { AuthProvider } from './context/AuthProvider.tsx';
 import { NotificationProvider } from './context/NotificationsProvider.tsx';
 
 import App from './components/App.tsx';

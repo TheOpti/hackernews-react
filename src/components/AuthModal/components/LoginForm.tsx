@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useMutation } from '@apollo/client';
 
-import { useAuth } from '../../../context/AuthContext';
+import { useAuth } from '../../../context/AuthProvider';
 
 import { LOGIN_MUTATION } from './../AuthModal.graphql';
 
