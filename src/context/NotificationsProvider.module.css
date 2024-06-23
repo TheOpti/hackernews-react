@@ -1,0 +1,11 @@
+.notificationsContainer {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 1050;
+  width: 500px;
+  padding: 10px;
+}
+.message {
+  margin-right: 3rem;
+}
