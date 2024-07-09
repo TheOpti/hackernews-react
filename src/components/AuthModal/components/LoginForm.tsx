@@ -3,7 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useMutation } from '@apollo/client';
 
-import { useAuth } from '../../../context/AuthContext';
+import { useAuth } from '../../../context/AuthProvider';
+import { useNotification } from '../../../context/NotificationsProvider';
 
 import { LOGIN_MUTATION } from './../AuthModal.graphql';
 
@@ -18,6 +19,7 @@ export const LoginForm = (props: Props) => {
   const { openForgotPasswordForm, handleClose } = props;
   const [login, { loading }] = useMutation(LOGIN_MUTATION);
   const { setToken } = useAuth();
+  const { showNotification } = useNotification();
 
   const formik = useFormik({
     initialValues: {
@@ -39,6 +41,7 @@ export const LoginForm = (props: Props) => {
 
           setToken(token, name);
           handleClose();
+          showNotification({ message: 'You successfully logged in to application' });
         },
         onError: (error) => {
           formikHelpers.setErrors({

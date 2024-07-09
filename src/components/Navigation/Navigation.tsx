@@ -2,7 +2,8 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthProvider';
+import { useNotification } from '../../context/NotificationsProvider';
 
 import classes from './Navigation.module.css';
 
@@ -14,6 +15,12 @@ export const Navigation = (props: Props) => {
   const { openLoginModal } = props;
 
   const { authenticatedUser, removeToken } = useAuth();
+  const { showNotification } = useNotification();
+
+  const logOff = () => {
+    removeToken();
+    showNotification({ message: 'You logged off from the application.', variant: 'info' });
+  };
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -33,7 +40,7 @@ export const Navigation = (props: Props) => {
                   Signed in as <b>{authenticatedUser}</b>
                 </Navbar.Text>
                 <div className={classes.divider} />
-                <Nav.Link onClick={removeToken}>log out</Nav.Link>
+                <Nav.Link onClick={logOff}>log out</Nav.Link>
               </>
             )}
             {!authenticatedUser && <Nav.Link onClick={openLoginModal}>login</Nav.Link>}
