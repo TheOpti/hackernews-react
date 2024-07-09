@@ -4,15 +4,15 @@ export const FEED_QUERY = gql`
   query {
     feed {
       id
-      description
+      title
       url
-      votes {
-        id
-      }
+      numberOfComments
+      numberOfVotes
       postedBy {
         id
         name
       }
+      createdAt
     }
   }
 `;

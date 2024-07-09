@@ -9,10 +9,12 @@ type Props = {
 
 export const LinkCard = ({ link }: Props) => {
   const {
-    description,
+    title,
     url,
     postedBy: { name: userName },
-    votes
+    numberOfComments,
+    numberOfVotes,
+    createdAt
   } = link;
 
   const hostname = new URL(url).hostname;
@@ -23,15 +25,15 @@ export const LinkCard = ({ link }: Props) => {
         <Button className={classes.voteButton}>
           <Plus className={classes.voteIcon} />
         </Button>
-        <div className={classes.votes}>{votes.length}</div>
+        <div className={classes.votes}>{numberOfVotes}</div>
       </div>
       <div>
         <div className={classes.titleRow}>
-          <Card.Title className={classes.linkTitle}>{description}</Card.Title>
+          <Card.Title className={classes.linkTitle}>{title}</Card.Title>
           <Card.Text>({hostname})</Card.Text>
         </div>
         <Card.Text className={classes.titleBottomRow}>
-          posted by {userName} | 4 hours ago | 12 comments
+          posted by {userName} | {createdAt} | {numberOfComments} comments
         </Card.Text>
       </div>
     </Card>
