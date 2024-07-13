@@ -2,6 +2,7 @@ import { Button, Card } from 'react-bootstrap';
 import { Plus } from 'react-bootstrap-icons';
 
 import classes from './LinkCard.module.css';
+import { Link } from 'react-router-dom';
 
 type Props = {
   link: any;
@@ -33,7 +34,8 @@ export const LinkCard = ({ link }: Props) => {
           <Card.Text>({hostname})</Card.Text>
         </div>
         <Card.Text className={classes.titleBottomRow}>
-          posted by {userName} | {createdAt} | {numberOfComments} comments
+          posted by <Link to="/profile/1">{userName}</Link> | {createdAt} | {numberOfComments}{' '}
+          comments
         </Card.Text>
       </div>
     </Card>
