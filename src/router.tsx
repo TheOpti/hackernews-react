@@ -1,11 +1,24 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 
-import MainPage from './pages/MainPage/MainPage';
+import ListPage from './pages/ListPage/ListPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import Layout from './pages/Layout';
 
 export const router = createBrowserRouter([
-  { path: '/', element: <MainPage /> },
-  { path: '/profile/:id', element: <ProfilePage /> },
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        path: '',
+        element: <ListPage />
+      },
+      {
+        path: '/profile/:id',
+        element: <ProfilePage />
+      }
+    ]
+  },
   {
     path: '*',
     element: <Navigate to="/" />

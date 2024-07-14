@@ -1,11 +1,11 @@
 import { useQuery } from '@apollo/client';
 
-import { LinkCard } from '../LinkCard/LinkCard';
-import { FEED_QUERY } from './LinkList.graphql';
+import { LinkCard } from '../../components/LinkCard/LinkCard';
+import { FEED_QUERY } from './ListPage.graphql';
 
-import classes from './LinkList.module.css';
+import classes from './ListPage.module.css';
 
-export const LinkList = () => {
+export const ListPage = () => {
   const { data, loading, error } = useQuery(FEED_QUERY);
 
   if (loading) {
@@ -28,3 +28,5 @@ export const LinkList = () => {
     </div>
   );
 };
+
+export default ListPage;
