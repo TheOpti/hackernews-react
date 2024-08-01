@@ -1,8 +1,15 @@
-import { Button, Card } from 'react-bootstrap';
-import { Plus } from 'react-bootstrap-icons';
+import { Card, Row, Col, Nav } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { formatDistanceToNow } from 'date-fns';
+import {
+  faComment as farComment,
+  faClock as farClock,
+  faUser as farUser,
+  faCaretSquareUp
+} from '@fortawesome/free-regular-svg-icons';
 
 import classes from './LinkCard.module.css';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 type Props = {
   link: any;
@@ -12,7 +19,7 @@ export const LinkCard = ({ link }: Props) => {
   const {
     title,
     url,
-    postedBy: { name: userName },
+    postedBy: { name: userName, id },
     numberOfComments,
     numberOfVotes,
     createdAt
@@ -20,24 +27,50 @@ export const LinkCard = ({ link }: Props) => {
 
   const hostname = new URL(url).hostname;
 
+  const openLinkInNewTab = () => {
+    window.open(url, '_blank');
+  };
+
   return (
-    <Card className={classes.linkCard}>
-      <div className={classes.voteBlock}>
-        <Button className={classes.voteButton}>
-          <Plus className={classes.voteIcon} />
-        </Button>
-        <div className={classes.votes}>{numberOfVotes}</div>
-      </div>
-      <div>
-        <div className={classes.titleRow}>
-          <Card.Title className={classes.linkTitle}>{title}</Card.Title>
-          <Card.Text>({hostname})</Card.Text>
-        </div>
-        <Card.Text className={classes.titleBottomRow}>
-          posted by <Link to="/profile/1">{userName}</Link> | {createdAt} | {numberOfComments}{' '}
-          comments
-        </Card.Text>
-      </div>
+    <Card className="mb-2">
+      <Card.Body>
+        <Row className="m-0">
+          <Col xs="auto" className={`p-0 ${classes.upvoteIcon}`}>
+            <FontAwesomeIcon icon={faCaretSquareUp} size="xl" />
+          </Col>
+          <Col>
+            <Card.Title className="mb-2 d-flex align-items-center">
+              <h5 className="mb-0">
+                <a href="#" className={`text-dark ${classes.link}`} onClick={openLinkInNewTab}>
+                  {title}
+                </a>
+              </h5>
+              <span className="mb-0 mx-2 text-muted fs-6">({hostname})</span>
+            </Card.Title>
+            <Card.Text>
+              <small className="text-muted d-flex align-items-center">
+                <div className="mr-2">{numberOfVotes} points</div>
+                <div className={`mx-2 ${classes.divider}`} />
+                <div className="mr-2">
+                  <FontAwesomeIcon icon={farComment} /> {numberOfComments} comments
+                </div>
+                <div className={`mx-2 ${classes.divider}`} />
+                <span className="mr-2">
+                  <FontAwesomeIcon icon={farClock} />{' '}
+                  {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+                </span>
+                <div className={`mx-2 ${classes.divider}`} />
+                <span>
+                  <FontAwesomeIcon icon={farUser} /> added by{' '}
+                  <NavLink to={`/profile/${id}`} className={`text-dark ${classes.link}`}>
+                    {userName}
+                  </NavLink>
+                </span>
+              </small>
+            </Card.Text>
+          </Col>
+        </Row>
+      </Card.Body>
     </Card>
   );
 };
