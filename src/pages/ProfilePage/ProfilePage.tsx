@@ -1,4 +1,8 @@
+import { useQuery } from '@apollo/client';
 import { Row, Col, Card, ListGroup, Container, Badge } from 'react-bootstrap';
+import { USER_QUERY } from './ProfilePage.graphql';
+import { useParams } from 'react-router-dom';
+import { ErrorScreen } from '../../components/ErrorScreen/ErrorScreen';
 
 const user = {
   name: 'John Doe',
@@ -16,6 +20,10 @@ const user = {
 };
 
 export const ProfilePage = () => {
+  const { id } = useParams();
+
+  const { data, loading, error } = useQuery(USER_QUERY, { variables: { id } });
+
   return (
     <Container className="d-flex flex-column">
       <Row className="mt-3 mb-3 justify-content-center">

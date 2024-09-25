@@ -1,4 +1,4 @@
-import { Card, Row, Col, Nav } from 'react-bootstrap';
+import { Card, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatDistanceToNow } from 'date-fns';
 import {
