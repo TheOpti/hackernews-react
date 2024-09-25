@@ -3,6 +3,7 @@ import { Row, Col, Card, ListGroup, Container, Badge } from 'react-bootstrap';
 import { USER_QUERY } from './ProfilePage.graphql';
 import { useParams } from 'react-router-dom';
 import { ErrorScreen } from '../../components/ErrorScreen/ErrorScreen';
+import { LoadingState } from '../../components/LoadingState/LoadingState';
 
 const user = {
   name: 'John Doe',
