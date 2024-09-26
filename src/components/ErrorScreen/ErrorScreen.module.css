@@ -1,5 +1,5 @@
 .imageContainer {
-  min-width: 600px;
+  min-width: 400px;
   height: 400px;
   background: url('../../assets/astronaut.svg') center center no-repeat;
 }

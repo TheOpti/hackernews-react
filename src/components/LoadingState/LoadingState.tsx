@@ -8,9 +8,9 @@ export const LoadingState = (props: Props) => {
   const { numberOfCards = 3 } = props;
 
   return (
-    <Container className="d-flex flex-column gap-3 flex-grow-1 mt-5 mb-5">
+    <Container className="d-flex flex-column align-items-center gap-3 mt-3 mb-3">
       {Array.from({ length: numberOfCards }, (_, index) => (
-        <Card key={index}>
+        <Card key={index} className="col-12 col-sm-10 col-lg-8">
           <Card.Header>
             <h3 className="placeholder-glow">
               <span className="placeholder col-6"></span>

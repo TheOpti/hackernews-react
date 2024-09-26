@@ -8,10 +8,12 @@ export const USER_QUERY = gql`
       email
       createdAt
       links {
+        id
         title
         numberOfComments
         numberOfVotes
         createdAt
+        url
       }
       votes {
         link {
@@ -19,6 +21,7 @@ export const USER_QUERY = gql`
           numberOfComments
           numberOfVotes
           createdAt
+          url
         }
       }
       bio
