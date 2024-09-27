@@ -34,12 +34,9 @@ export const LoginForm = (props: Props) => {
           password
         },
         onCompleted: (data) => {
-          const {
-            token,
-            user: { name }
-          } = data.login;
+          const { accessToken, username } = data.login;
 
-          setToken(token, name);
+          setToken(accessToken, username);
           handleClose();
           showNotification({ message: 'You successfully logged in to application' });
         },

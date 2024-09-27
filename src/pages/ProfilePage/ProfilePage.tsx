@@ -24,11 +24,25 @@ export const ProfilePage = () => {
     <Container className="d-flex flex-column align-items-center mt-3 mb-3 gap-3">
       <Card className="justify-content-center col-12 col-sm-10 col-lg-8">
         <Card.Header>
-          <h3 className="mb-0">John Doe</h3>
+          <h3 className="mb-0">{user.name}</h3>
         </Card.Header>
         <Card.Body>
-          <Card.Subtitle className="mb-2 text-muted">Member since {user.createdAt}</Card.Subtitle>
-          <Card.Text>{user.bio}</Card.Text>
+          {user.email && (
+            <>
+              <div>
+                <b>Email:</b>
+              </div>
+              <Card.Text>{user.email}</Card.Text>
+            </>
+          )}
+          <div>
+            <b>Member since:</b>
+          </div>
+          <Card.Text>{user.createdAt}</Card.Text>
+          <div>
+            <b>Bio:</b>
+          </div>
+          <Card.Text> {user.bio}</Card.Text>
         </Card.Body>
       </Card>
       <Card className="justify-content-center col-12 col-sm-10 col-lg-8">
