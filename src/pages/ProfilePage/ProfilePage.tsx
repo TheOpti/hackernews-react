@@ -1,13 +1,15 @@
 import { useQuery } from '@apollo/client';
-import { differenceInDays, differenceInMonths, differenceInYears, formatDistance } from 'date-fns';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import { differenceInDays, differenceInMonths, differenceInYears } from 'date-fns';
 import {
   Card,
   ListGroup,
   Container,
   Badge,
-  Tooltip,
   OverlayTrigger,
-  Popover
+  Popover,
+  Tooltip
 } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
@@ -15,6 +17,9 @@ import { ErrorScreen } from '../../components/ErrorScreen/ErrorScreen';
 import { LoadingState } from '../../components/LoadingState/LoadingState';
 
 import { USER_QUERY } from './ProfilePage.graphql';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+
+import classes from './ProfilePage.module.css';
 
 export const ProfilePage = () => {
   const { id } = useParams();
@@ -35,7 +40,6 @@ export const ProfilePage = () => {
     const currentDate = new Date();
     const userDate = new Date(user.createdAt);
 
-    // Calculate the differences
     const days = differenceInDays(currentDate, userDate);
     const months = differenceInMonths(currentDate, userDate);
     const years = differenceInYears(currentDate, userDate);
@@ -66,18 +70,11 @@ export const ProfilePage = () => {
           <h3 className="mb-0">{user.name}</h3>
         </Card.Header>
         <Card.Body>
-          {user.email && (
-            <>
-              <div>
-                <b>Email:</b>
-              </div>
-              <Card.Text>{user.email}</Card.Text>
-            </>
-          )}
           <div>
             <b>Registered:</b>
           </div>
-          <Card.Text>
+          <Card.Text className="d-flex align-items-center gap-2">
+            {formatRelativeDate()}{' '}
             <OverlayTrigger
               placement="bottom"
               overlay={
@@ -85,9 +82,48 @@ export const ProfilePage = () => {
                   <Popover.Body>Account created on {formatDateToUserLocale()}</Popover.Body>
                 </Popover>
               }>
-              <span>{formatRelativeDate()}</span>
+              <span className={classes.icon}>
+                <FontAwesomeIcon icon={faCircleInfo} />
+              </span>
             </OverlayTrigger>
           </Card.Text>
+
+          {user.email && (
+            <>
+              <div>
+                <b>Email:</b>
+              </div>
+              <Card.Text className="d-flex align-items-center gap-2">
+                {user.email}{' '}
+                <OverlayTrigger
+                  placement="bottom"
+                  overlay={<Tooltip style={{ position: 'fixed' }}>Change Email</Tooltip>}>
+                  <span className={classes.icon}>
+                    <FontAwesomeIcon icon={faPenToSquare} />
+                  </span>
+                </OverlayTrigger>
+              </Card.Text>
+            </>
+          )}
+
+          {user.email && (
+            <>
+              <div>
+                <b>Password:</b>
+              </div>
+              <Card.Text className="d-flex align-items-center gap-2">
+                **********{' '}
+                <OverlayTrigger
+                  placement="bottom"
+                  overlay={<Tooltip style={{ position: 'fixed' }}>Change Password</Tooltip>}>
+                  <span className={classes.icon}>
+                    <FontAwesomeIcon icon={faPenToSquare} />
+                  </span>
+                </OverlayTrigger>
+              </Card.Text>
+            </>
+          )}
+
           <div>
             <b>Bio:</b>
           </div>
