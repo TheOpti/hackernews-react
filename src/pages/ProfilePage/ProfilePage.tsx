@@ -1,9 +1,20 @@
 import { useQuery } from '@apollo/client';
-import { Card, ListGroup, Container, Badge } from 'react-bootstrap';
-import { USER_QUERY } from './ProfilePage.graphql';
+import { differenceInDays, differenceInMonths, differenceInYears, formatDistance } from 'date-fns';
+import {
+  Card,
+  ListGroup,
+  Container,
+  Badge,
+  Tooltip,
+  OverlayTrigger,
+  Popover
+} from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
+
 import { ErrorScreen } from '../../components/ErrorScreen/ErrorScreen';
 import { LoadingState } from '../../components/LoadingState/LoadingState';
+
+import { USER_QUERY } from './ProfilePage.graphql';
 
 export const ProfilePage = () => {
   const { id } = useParams();
@@ -19,6 +30,34 @@ export const ProfilePage = () => {
   }
 
   const { user } = data;
+
+  const formatRelativeDate = () => {
+    const currentDate = new Date();
+    const userDate = new Date(user.createdAt);
+
+    // Calculate the differences
+    const days = differenceInDays(currentDate, userDate);
+    const months = differenceInMonths(currentDate, userDate);
+    const years = differenceInYears(currentDate, userDate);
+
+    if (days < 30) {
+      return `${days} days ago`;
+    }
+
+    if (months < 12) {
+      return `${months} months ago`;
+    }
+
+    return `${years} years ago`;
+  };
+
+  const formatDateToUserLocale = () => {
+    return new Intl.DateTimeFormat(navigator.language, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(new Date(user.createdAt));
+  };
 
   return (
     <Container className="d-flex flex-column align-items-center mt-3 mb-3 gap-3">
@@ -36,9 +75,19 @@ export const ProfilePage = () => {
             </>
           )}
           <div>
-            <b>Member since:</b>
+            <b>Registered:</b>
           </div>
-          <Card.Text>{user.createdAt}</Card.Text>
+          <Card.Text>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={
+                <Popover id="popover-basic" style={{ position: 'fixed' }}>
+                  <Popover.Body>Account created on {formatDateToUserLocale()}</Popover.Body>
+                </Popover>
+              }>
+              <span>{formatRelativeDate()}</span>
+            </OverlayTrigger>
+          </Card.Text>
           <div>
             <b>Bio:</b>
           </div>
