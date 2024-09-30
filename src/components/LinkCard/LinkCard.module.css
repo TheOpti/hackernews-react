@@ -1,46 +1,17 @@
-.linkCard {
-  margin: 12px 0;
-  box-shadow: 0px 0px 2px 1px rgba(66, 68, 90, 0.5);
-  display: flex;
-  flex-direction: row !important;
-  padding: 8px !important;
-}
-
-.voteBlock {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin-right: 16px;
-  font-size: 10px;
-}
-
-.voteButton {
-  height: 32px;
-  width: 32px;
-  padding: 0 !important;
-}
-
-.voteIcon {
-  font-size: 24px;
-}
-
-.votes {
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.titleRow {
-  display: flex;
-  align-items: center;
-}
-
-.linkTitle {
+.upvoteIcon {
+  margin-top: 2px;
   cursor: pointer;
-  margin: 0 8px 0 0 !important;
 }
 
-.titleBottomRow {
-  text-align: left;
-  font-size: 14px;
-  margin-top: 8px;
+.divider {
+  border-left: 1px solid #ddd;
+  height: 16px;
+}
+
+.link {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

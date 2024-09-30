@@ -5,6 +5,7 @@ export const FEED_QUERY = gql`
     feed {
       id
       title
+      description
       url
       numberOfComments
       numberOfVotes
