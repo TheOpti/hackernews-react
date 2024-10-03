@@ -1,15 +1,17 @@
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card, Row, Col, Button, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatDistanceToNow } from 'date-fns';
 import {
   faComment as farComment,
   faClock as farClock,
-  faUser as farUser,
-  faCaretSquareUp
+  faUser as farUser
 } from '@fortawesome/free-regular-svg-icons';
 
 import classes from './LinkCard.module.css';
 import { NavLink } from 'react-router-dom';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { VOTE_MUTATION } from './LinkCard.graphql';
+import { useMutation } from '@apollo/client';
 
 type Props = {
   link: any;
@@ -17,6 +19,7 @@ type Props = {
 
 export const LinkCard = ({ link }: Props) => {
   const {
+    id: linkId,
     title,
     url,
     postedBy: { name: userName, id },
@@ -31,12 +34,34 @@ export const LinkCard = ({ link }: Props) => {
     window.open(url, '_blank');
   };
 
+  const [vote, { loading }] = useMutation(VOTE_MUTATION);
+
+  console.debug('!!! linkId ', linkId);
+
+  const addVote = () => {
+    vote({
+      variables: {
+        linkId: linkId.toString()
+      },
+      onCompleted: (data) => {
+        console.debug('data ', data);
+        // showNotification({ message: 'Vote added!' });
+      },
+      onError: () => {
+        console.debug('Could not add vote');
+      }
+    });
+  };
+
   return (
     <Card className="mb-2">
       <Card.Body>
         <Row className="m-0">
-          <Col xs="auto" className={`p-0 ${classes.upvoteIcon}`}>
-            <FontAwesomeIcon icon={faCaretSquareUp} size="xl" />
+          <Col xs="auto" className="p-0 cursor-pointer">
+            <Button className="py-1 px-2" onClick={addVote}>
+              {!loading && <FontAwesomeIcon icon={faArrowUp} size="lg" />}
+              {loading && <Spinner animation="border" size="sm" />}
+            </Button>
           </Col>
           <Col>
             <Card.Title className="mb-2 d-flex align-items-center">
