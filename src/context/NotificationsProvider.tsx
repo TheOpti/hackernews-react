@@ -2,7 +2,6 @@ import { createContext, useContext, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { Alert } from 'react-bootstrap';
 import { Variant } from 'react-bootstrap/esm/types';
-import Fade from 'react-bootstrap/Fade';
 
 import classes from './NotificationsProvider.module.css';
 
@@ -30,7 +29,7 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const showNotification = useCallback(
-    ({ message, variant = 'success', timeout = 500000 }: NotificationData) => {
+    ({ message, variant = 'success', timeout = 3500 }: NotificationData) => {
       const id = new Date().getTime();
       setNotifications((prevNotifications) => [...prevNotifications, { id, message, variant }]);
 
