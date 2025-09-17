@@ -39,7 +39,7 @@ const ForgotPasswordForm = (props: Props) => {
         />
         <Form.Control.Feedback type="invalid">{formik.errors.email}</Form.Control.Feedback>
       </Form.Group>
-      <div className="d-grid gap-2  mt-4">
+      <div className="d-grid gap-2 mt-4">
         <Button variant="primary" type="submit" disabled={formik.isSubmitting}>
           Reset password
         </Button>

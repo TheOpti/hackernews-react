@@ -14,6 +14,13 @@ export const FEED_QUERY = gql`
         name
       }
       createdAt
+      votes {
+        id
+        user {
+          id
+          name
+        }
+      }
     }
   }
 `;
